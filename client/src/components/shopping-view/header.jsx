@@ -1,8 +1,7 @@
 
 function ShoppingHeader() {
     return (
-        <div>shopping view header
-        </div>
+        <div>shopping view header</div>
     );
 }
 

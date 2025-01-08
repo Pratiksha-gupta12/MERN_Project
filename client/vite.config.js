@@ -14,6 +14,8 @@ export default defineConfig({
 })
   */
 
+
+
 import path from "path";
 import { fileURLToPath } from "url";
 import { defineConfig } from "vite";
@@ -28,6 +30,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      
     },
   },
   
