@@ -3,18 +3,18 @@ const mongoose =  require('mongoose');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const authRouter = require('./routes/auth/auth-routes');
-const { registerUser } = require('./controllers/auth/auth-controller');
+// const { registerUser } = require('./controllers/auth/auth-controller');
 
 //create a database connection
 // we can also create a separate file for this and import that file
-mongoose.connect('mongodb+srv://pratikshag508:Pratiksha12@cluster0.sezdr.mongodb.net/').then(()=>console.log('MongoDB connected')).catch(error=> console.log(error));
+mongoose.connect('mongodb+srv://pratikshag508:Pratiksha12@cluster0.sezdr.mongodb.net/').then(()=>console.log('MongoDB connected')).catch((error)=> console.log(error));
 
 const app = express()
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5001; //issue here
 
 app.use(
     cors({
-        origin : 'http://localhost:5173/',
+        origin : 'http://localhost:5173',
         methods : ['GET' , 'POST' , 'DELETE' , 'PUT'],
         allowedHeaders : [
             "Content-Type",
@@ -34,3 +34,4 @@ app.use("/api/auth", authRouter);
 // /api/auth/login - >loginUser
 
 app.listen(PORT, ()=>console.log(`Server is now running on port ${PORT}`))
+

@@ -170,7 +170,7 @@ function CommonForm({
                         id={getControlItem.name}
                         type={getControlItem.type}
                         value={value}
-                        onChange={event =>
+                        onChange={(event) =>
                             setFormData({
                                 ...formData,
                                 [getControlItem.name]: event.target.value,

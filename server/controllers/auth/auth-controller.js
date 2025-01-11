@@ -5,7 +5,7 @@ const User = require("../../models/User");
 
 
 
-//register
+// register
 
 const registerUser = async(req,res)=>{
     const {userName, email,password} = req.body;
@@ -14,13 +14,16 @@ const registerUser = async(req,res)=>{
         const hashPassword = await bcrypt.hash(password,12);  //12 is the salt number(a random data value that is added to a password before it is hashed)
         const newUser = new User({
             userName,email,password : hashPassword,
-        })
+        });
 
-        await newUser.save()
-        res.status(200).json({
-            success : true,
-            message : 'Registration Successfull'
-        })
+       app.post("/api/auth/register", (req, res) => {
+  console.log("Request received:", req.body);
+  res.status(200).send("Success");
+});
+
+
+  
+
 
     }catch(e){
         console.log(e);
@@ -33,6 +36,8 @@ const registerUser = async(req,res)=>{
 
     }
 };
+
+
 
 
 
@@ -62,3 +67,7 @@ const login = async( req,res)=> {
 
 
 module.exports = { registerUser };
+
+
+
+
