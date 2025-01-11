@@ -16,11 +16,16 @@ const registerUser = async(req,res)=>{
             userName,email,password : hashPassword,
         });
 
-       app.post("/api/auth/register", (req, res) => {
-  console.log("Request received:", req.body);
-  res.status(200).send("Success");
-});
+//        app.post("/api/auth/register", (req, res) => {
+//   console.log("Request received:", req.body);
+//   res.status(200).send("Success");
+// });
 
+await newUser.save();
+ res.status(200).json({
+ success: true,
+ message: "Registration Successful"
+ });
 
   
 
