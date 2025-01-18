@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require('express')
 const mongoose =  require('mongoose');
 const cookieParser = require('cookie-parser');
@@ -7,7 +9,11 @@ const authRouter = require('./routes/auth/auth-routes');
 
 //create a database connection
 // we can also create a separate file for this and import that file
-mongoose.connect('db url').then(()=>console.log('MongoDB connected')).catch((error)=> console.log(error));
+
+
+// mongoose.connect('mongodb+srv://pratikshag508:Pratiksha12%40@cluster0.irbua.mongodb.net/').then(()=>console.log('MongoDB connected')).catch((error)=> console.log(error));
+
+mongoose.connect(process.env.MONGO_URI).then(()=>console.log('MongoDB connected')).catch((error)=> console.log(error));
 
 const app = express()
 const PORT = process.env.PORT || 5001; //issue here

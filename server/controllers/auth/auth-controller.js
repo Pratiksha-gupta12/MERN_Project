@@ -58,20 +58,23 @@ const loginUser = async( req,res)=> {
 
     try{
         const checkUser = await User.findOne({ email });
-        if(!checkUser) return res.json({
+        if(!checkUser) 
+            return res.json({
             success: false,
             message: "User doesn't exists! Pleases register first"
         });
 
-        const checkPasswordMatch = await bcrypt.compare(password , checkUser.password)
-        if(!checkPasswordMatch) if(!checkUser) return res.json({
+        const checkPasswordMatch = await bcrypt.compare(password , checkUser.password);
+        if(!checkPasswordMatch) 
+            if(!checkUser) 
+                return res.json({
             success: false,
             message: "Incorrect Password! Please try again"
         });
 
          const token = jwt.sign({
-            id: checkUser._id , role : checkUser.role , email : checkUser.email, userName: checkUser 
-         }, 'CLIENT_SECRET_KEY', {expiresIn : '60m'})
+            id: checkUser._id , role : checkUser.role , email : checkUser.email, userName: checkUser.userName
+         }, 'CLIENT_SECRET_KEY', {expiresIn : '60m'});
 
          res.cookie('token', token, {httpOnly: true , secure : false}).json({
             success : true,
@@ -79,12 +82,10 @@ const loginUser = async( req,res)=> {
             user : {
                 email : checkUser.email,
                 role : checkUser.role,
-                id : checkUser._id
-            }
-         })
-
-
-
+                id : checkUser._id,
+                userName : checkUser.userName,
+            },
+         });
     }catch(e){
         console.log(e);
         res.status(500).json(
@@ -95,7 +96,7 @@ const loginUser = async( req,res)=> {
         );
 
     }
-}
+};
 
 
 //logout
