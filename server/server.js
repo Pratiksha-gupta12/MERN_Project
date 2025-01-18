@@ -11,7 +11,7 @@ const authRouter = require('./routes/auth/auth-routes');
 // we can also create a separate file for this and import that file
 
 
-// mongoose.connect('mongodb+srv://pratikshag508:Pratiksha12%40@cluster0.irbua.mongodb.net/').then(()=>console.log('MongoDB connected')).catch((error)=> console.log(error));
+
 
 mongoose.connect(process.env.MONGO_URI).then(()=>console.log('MongoDB connected')).catch((error)=> console.log(error));
 
