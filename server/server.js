@@ -16,7 +16,7 @@ const authRouter = require('./routes/auth/auth-routes');
 mongoose.connect(process.env.MONGO_URI).then(()=>console.log('MongoDB connected')).catch((error)=> console.log(error));
 
 const app = express()
-const PORT = process.env.PORT || 5001; //issue here
+const PORT = process.env.PORT || 5001; 
 
 app.use(
     cors({
