@@ -21,16 +21,17 @@ const initialFormData = {
 function AdminProducts(){
 
 const [openCreateProductsDialog , setopenCreateProductsDialog] = useState(false);
-
 const [formData, setFormData] = useState(initialFormData);
-
 const [imageFile , setImageFile] = useState(null);
-
 const [uploadedImageUrl , setUploadedImageUrl] = useState('');
+const [imageLoadingState , setImageLoadingState] = useState(false);
 
 function onSubmit(){
 
+
 }
+
+console.log(formData , 'formData')
 
     return(
         <Fragment>
@@ -47,7 +48,8 @@ function onSubmit(){
                         </SheetHeader>
 
                         <ProductImageUpload
-                        imageFile={imageFile} setImageFile={setImageFile} uploadImageUrl={uploadedImageUrl} setUploadImageUrl={setUploadedImageUrl}/>
+                        imageFile={imageFile} setImageFile={setImageFile} uploadImageUrl={uploadedImageUrl} setUploadImageUrl={setUploadedImageUrl}
+                        setImageLoadingState={setImageLoadingState}/>
                         <div className="py-6">
                             <CommonForm 
                             onSubmit={onSubmit} formData={formData}  setFormData={setFormData}  buttonText='Add' formControls={addProductFormElements}/>
