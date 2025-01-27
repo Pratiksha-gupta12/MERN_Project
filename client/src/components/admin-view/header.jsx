@@ -15,7 +15,6 @@ function AdminHeader({setOpen}) {
             <LogOut />
             Logout
             </Button>
-
         </div>
 
     </header>

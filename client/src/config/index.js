@@ -113,4 +113,3 @@ export const addProductFormElements =[
         placeholder: "Enter total stock",
     },
 ];
-   
