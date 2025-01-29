@@ -49,7 +49,9 @@ console.log(formData , 'formData')
 
                         <ProductImageUpload
                         imageFile={imageFile} setImageFile={setImageFile} uploadImageUrl={uploadedImageUrl} setUploadImageUrl={setUploadedImageUrl}
-                        setImageLoadingState={setImageLoadingState}/>
+                        setImageLoadingState={setImageLoadingState}
+                        imageLoadingState={imageLoadingState }
+                        />
                         <div className="py-6">
                             <CommonForm 
                             onSubmit={onSubmit} formData={formData}  setFormData={setFormData}  buttonText='Add' formControls={addProductFormElements}/>
