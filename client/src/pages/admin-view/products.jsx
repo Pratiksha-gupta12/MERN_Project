@@ -3,8 +3,10 @@ import CommonForm from "@/components/common/form";
 import { Button } from "@/components/ui/button";
 import { Sheet,SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config";
+import { fetchAllProducts } from "@/store/admin/products-slice";
 
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const initialFormData = {
@@ -26,12 +28,20 @@ const [imageFile , setImageFile] = useState(null);
 const [uploadedImageUrl , setUploadedImageUrl] = useState('');
 const [imageLoadingState , setImageLoadingState] = useState(false);
 
-function onSubmit(){
+const {productList} = useSelector(state => state.adminProducts)
+const dispatch = useDispatch();
+
+function onSubmit(event){
+    event.preventDefault();
 
 
 }
 
-console.log(formData , 'formData')
+useEffect(()=>{
+    dispatch(fetchAllProducts)
+},[dispatch])
+
+console.log(productList , 'productList')
 
     return(
         <Fragment>
@@ -48,7 +58,7 @@ console.log(formData , 'formData')
                         </SheetHeader>
 
                         <ProductImageUpload
-                        imageFile={imageFile} setImageFile={setImageFile} uploadImageUrl={uploadedImageUrl} setUploadImageUrl={setUploadedImageUrl}
+                        imageFile={imageFile} setImageFile={setImageFile} uploadedImageUrl={uploadedImageUrl} setUploadedImageUrl={setUploadedImageUrl}
                         setImageLoadingState={setImageLoadingState}
                         imageLoadingState={imageLoadingState }
                         />
