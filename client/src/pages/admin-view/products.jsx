@@ -65,6 +65,7 @@ console.log(productList , 'productList')
                         <div className="py-6">
                             <CommonForm 
                             onSubmit={onSubmit} formData={formData}  setFormData={setFormData}  buttonText='Add' formControls={addProductFormElements}/>
+                            
 
                         </div>
                     </SheetContent>
