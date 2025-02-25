@@ -87,6 +87,7 @@ try{
             success: false,
             message: "Product not found",
         });
+    }
 
         findProduct.title = title || findProduct.title
         findProduct.description = description || findProduct.description
@@ -96,7 +97,7 @@ try{
         findProduct.salePrice = salePrice || findProduct.salePrice
         findProduct.totalStock = totalStock || findProduct.totalStock
         findProduct.image = image || findProduct.image
-    }
+    
 
     await findProduct.save();
     res.status(200).json({

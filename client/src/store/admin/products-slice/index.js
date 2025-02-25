@@ -18,7 +18,7 @@ export const addNewProduct = createAsyncThunk('/products/addnewproduct', async (
 
 );
 
-export const fetchAllProducts = createAsyncThunk('/products/etchAllProducts', async ()=>{
+export const fetchAllProducts = createAsyncThunk('/products/fetchAllProducts', async ()=>{
     const result = await axios.get('http://localhost:5001/api/admin/products/get')
     return result?.data;
 }
@@ -50,7 +50,7 @@ export const deleteProduct = createAsyncThunk('/products/deleteProduct', async (
 );
 
 // eslint-disable-next-line no-unused-vars
-const adminProductsSlice = createSlice({
+const AdminProductsSlice = createSlice({
     name: 'adminProducts',
     initialState,
     reducers: {},
@@ -61,14 +61,14 @@ const adminProductsSlice = createSlice({
             console.log(action.payload);
 
             state.isLoading = false;
-            state.productList = action.payload;
+            state.productList = action.payload.data;
         // eslint-disable-next-line no-unused-vars
         }).addCase(fetchAllProducts.rejected, (state, action)=>{
             state.isLoading = false
             state.productList = [];
-        })
+        });
 
     },
 });
 
-export default adminProductsSlice.reducer;
+export default AdminProductsSlice.reducer;
