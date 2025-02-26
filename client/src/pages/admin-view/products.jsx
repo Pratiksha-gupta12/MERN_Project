@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config";
 import { useToast } from "@/hooks/use-toast";
-import { addNewProduct, editProduct, fetchAllProducts } from "@/store/admin/products-slice";
+import { addNewProduct, deleteProduct, editProduct, fetchAllProducts } from "@/store/admin/products-slice";
 
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -76,6 +76,18 @@ function onSubmit(event){
     });
 }
 
+function handleDelete(getcurrentProductId){
+    dispatch(deleteProduct(getcurrentProductId)).then(data=>{
+        if(data?.payload?.success){
+            dispatch(fetchAllProducts());
+        }
+    })
+}
+
+function isFormValid(){
+    return Object.keys(formData).map((key)=> formData[key] !== "").every((item) => item);
+}
+
 useEffect(()=>{
     dispatch(fetchAllProducts())
 },[dispatch]);
@@ -90,7 +102,9 @@ console.log(formData,'productList')
             <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
                 {
                     productList && productList.length >0 ?
-                    productList.map(productItem=> (<AdminProductTile setFormData={setFormData} setOpenCreateProductsDialog={setOpenCreateProductsDialog} setCurrentEditedId={setCurrentEditedId} product={productItem}/>)) : null
+                    productList.map(productItem=> (<AdminProductTile setFormData={setFormData} setOpenCreateProductsDialog={setOpenCreateProductsDialog} setCurrentEditedId={setCurrentEditedId} product={productItem}
+                    handleDelete={handleDelete}
+                    />)) : null
                 }
             </div>
             <Sheet open = {openCreateProductsDialog} onOpenChange={()=> {
@@ -118,7 +132,11 @@ console.log(formData,'productList')
                         <div className="py-6">
                             <CommonForm 
                             onSubmit={onSubmit} formData={formData}  
-                            setFormData={setFormData}  buttonText={currentEditedId !== null ? "Edit" : "Add"} formControls={addProductFormElements}/>
+                            setFormData={setFormData}  buttonText={currentEditedId !== null ? "Edit" : "Add"} formControls={addProductFormElements}
+                            isBtnDisabled={!isFormValid()}
+                            
+                            />
+
                             
 
                         </div>
