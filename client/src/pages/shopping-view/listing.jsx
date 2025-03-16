@@ -43,6 +43,7 @@ function ShoppingListing() {
     const [sort, setSort] = useState(null);
     const [searchParams, setSearchParams] = useSearchParams();
 
+    
 
 
     function handleSort(value){ 
