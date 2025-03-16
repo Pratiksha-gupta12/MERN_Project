@@ -10,7 +10,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config";
-import { fetchAllFilteredProducts } from "@/store/shop/products-slice";
+import { fetchAllFilteredProducts, fetchProductDetails } from "@/store/shop/products-slice";
 import { ArrowUpDownIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,6 +26,7 @@ function createSearchParamsHelper(filterParams){
             const paramValue = value.join(',')
 
             queryParams.push(`${key}=${encodeURIComponent(paramValue)}`)
+            
         }
     }
 
@@ -37,7 +38,7 @@ function createSearchParamsHelper(filterParams){
 function ShoppingListing() {
 
     const dispatch = useDispatch()
-    const  {productList} = useSelector(state=> state.shopProducts)
+    const  {productList , productDetails} = useSelector(state=> state.shopProducts)
     const [filters, setFilters] = useState({});
     const [sort, setSort] = useState(null);
     const [searchParams, setSearchParams] = useSearchParams();
@@ -73,6 +74,12 @@ function ShoppingListing() {
         sessionStorage.setItem('filters', JSON.stringify(cpyFilters))
     }
 
+    function handleGetProductDetails(getcurrentProductId){
+      console.log(getcurrentProductId);
+      dispatch(fetchProductDetails(getcurrentProductId))
+    }
+
+
     useEffect(()=>{
         setSort("price-lowtohigh");
         setFilters(JSON.parse(sessionStorage.getItem('filters')) || {})
@@ -98,6 +105,7 @@ function ShoppingListing() {
 console.log(filters, searchParams.toString(),"filters");
 
 
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
       <ProductFilter filters={filters} handleFilter={handleFilter} />
@@ -108,7 +116,7 @@ console.log(filters, searchParams.toString(),"filters");
             <span className="text-muted-foreground">{productList?.length} Products</span>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
+                <Button   
                   variant="outline"
                   size="sm"
                   className="flex items-center gap-1"
@@ -140,7 +148,7 @@ console.log(filters, searchParams.toString(),"filters");
             {
                 productList && productList.length > 0 ?
                 productList.map(productItem=> 
-                    <ShoppingProductTile product={productItem} /> ) : null
+                    <ShoppingProductTile  handleGetProductDetails={handleGetProductDetails} product={productItem} /> ) : null
             }
 
         </div>
