@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/jsx-key */
 import ProductFilter from "@/components/shopping-view/filter";
+import ProductDetailsDialog from "@/components/shopping-view/product-details";
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,12 +10,12 @@ import {
     DropdownMenuRadioGroup, DropdownMenuRadioItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { sortOptions } from "@/config";
+import { sortOptions } from  "@/config";
 import { fetchAllFilteredProducts, fetchProductDetails } from "@/store/shop/products-slice";
 import { ArrowUpDownIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createSearchParams, useSearchParams } from "react-router-dom";
+import {  useSearchParams } from "react-router-dom";
 
 
 
@@ -42,8 +43,10 @@ function ShoppingListing() {
     const [filters, setFilters] = useState({});
     const [sort, setSort] = useState(null);
     const [searchParams, setSearchParams] = useSearchParams();
+    const [openDetailsDialog, setOpenDetailsDailog] = useState(false);
 
-    
+
+
 
 
     function handleSort(value){ 
@@ -77,7 +80,7 @@ function ShoppingListing() {
 
     function handleGetProductDetails(getcurrentProductId){
       console.log(getcurrentProductId);
-      dispatch(fetchProductDetails(getcurrentProductId))
+      dispatch(fetchProductDetails(getcurrentProductId));
     }
 
 
@@ -102,8 +105,12 @@ function ShoppingListing() {
     dispatch(fetchAllFilteredProducts({filterParams : filters , sortParams: sort}));
   },[dispatch , sort, filters]);
 
+  useEffect(()=>{
+    if(productDetails !== null) setOpenDetailsDailog(true)
+  }, [productDetails])
 
-console.log(filters, searchParams.toString(),"filters");
+
+console.log(productDetails , "productDetails");
 
 
 
@@ -154,6 +161,7 @@ console.log(filters, searchParams.toString(),"filters");
 
         </div>
       </div>
+      <ProductDetailsDialog  open={openDetailsDialog} setOpen={setOpenDetailsDailog} productDetails={productDetails} />
     </div>
   );
 }

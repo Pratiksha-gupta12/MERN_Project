@@ -13,4 +13,4 @@ const ProductSchema = new moongoose.Schema({
 },{timestamps: true}
 );
 
-module.exports = moongoose.model('Products', ProductSchema)
+module.exports = moongoose.model('Product', ProductSchema)

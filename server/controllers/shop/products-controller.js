@@ -45,10 +45,10 @@ const getFilteredProducts = async(req,res)=>{
 
         res.status(200).json({
             success: true,
-            data : products
+            data : products,
         })
 
-    }catch(e){
+    } catch (e){
         console.log(error);
         res.status(500).json({
             success : false,
@@ -63,19 +63,17 @@ const getProductDetails = async(req,res)=>{
         const {id} = req.params;
         const product = await Product.findById(id);
 
-        if(!product)
-        {
-            return res.status(404).json({
+        if(!product) return res.status(404).json({
                 success : false,
                 message : 'Product not found!'
             })
-        }
+        
         res.status(200).json({
             success : true,
-            data : Product,
+            data : product,
         })
 
-    }catch(e){
+    } catch(e){
         console.log(error);
         res.status(500).json({
             success : false,
