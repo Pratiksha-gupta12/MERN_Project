@@ -51,6 +51,7 @@ function ShoppingListing() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [openDetailsDialog, setOpenDetailsDailog] = useState(false);
 
+    
 
 
 
