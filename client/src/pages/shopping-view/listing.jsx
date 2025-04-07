@@ -11,6 +11,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from  "@/config";
+import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { fetchAllFilteredProducts, fetchProductDetails } from "@/store/shop/products-slice";
 import { ArrowUpDownIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -39,7 +40,12 @@ function createSearchParamsHelper(filterParams){
 function ShoppingListing() {
 
     const dispatch = useDispatch()
-    const  {productList , productDetails} = useSelector(state=> state.shopProducts)
+    const  {productList , productDetails} = useSelector(state=> state.shopProducts);
+
+    const {user} = useSelector(state=>state.auth);
+   
+
+
     const [filters, setFilters] = useState({});
     const [sort, setSort] = useState(null);
     const [searchParams, setSearchParams] = useSearchParams();
@@ -78,15 +84,26 @@ function ShoppingListing() {
         sessionStorage.setItem('filters', JSON.stringify(cpyFilters))
     }
 
-    function handleGetProductDetails(getcurrentProductId){
-      console.log(getcurrentProductId);
-      dispatch(fetchProductDetails(getcurrentProductId));
+    function handleGetProductDetails(getCurrentProductId){
+      console.log(getCurrentProductId);
+      dispatch(fetchProductDetails(getCurrentProductId));
+    }
+
+
+    function handleAddtoCart(getCurrentProductId){
+      console.log(getCurrentProductId);
+      dispatch(addToCart({userId : user?.id , productId : getCurrentProductId, quantity : 1 })).then((data)=> {
+        if(data?.payload?.success){
+          dispatch(fetchCartItems(user?.id));
+        }
+      }
+      );
     }
 
 
     useEffect(()=>{
         setSort("price-lowtohigh");
-        setFilters(JSON.parse(sessionStorage.getItem('filters')) || {})
+        setFilters(JSON.parse(sessionStorage.getItem('filters')) || {});
     }, []);
 
     useEffect(()=>{
@@ -107,10 +124,12 @@ function ShoppingListing() {
 
   useEffect(()=>{
     if(productDetails !== null) setOpenDetailsDailog(true)
-  }, [productDetails])
+  }, [productDetails]);
+
+  console.log(cartItems, "cartItems");
 
 
-console.log(productDetails , "productDetails");
+
 
 
 
@@ -156,7 +175,9 @@ console.log(productDetails , "productDetails");
             {
                 productList && productList.length > 0 ?
                 productList.map(productItem=> 
-                    <ShoppingProductTile  handleGetProductDetails={handleGetProductDetails} product={productItem} /> ) : null
+                    <ShoppingProductTile  handleGetProductDetails={handleGetProductDetails} product={productItem}
+                    handleAddtoCart={handleAddtoCart}
+                    /> ) : null
             }
 
         </div>

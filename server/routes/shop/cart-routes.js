@@ -5,6 +5,8 @@ const {addToCart, fetchCartItems, deleteCartItem, updateCartItemQty} = require('
 const router = express.Router();
 
 router.post('/add', addToCart);
-router.get();
-router.put();
-router.delete();
+router.get('/get/:userId', fetchCartItems);
+router.put('/update-cart', updateCartItemQty);
+router.delete('/:userId/:productId', deleteCartItem);
+
+module.exports = router;

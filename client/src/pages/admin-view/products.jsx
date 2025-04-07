@@ -76,8 +76,8 @@ function onSubmit(event){
     });
 }
 
-function handleDelete(getcurrentProductId){
-    dispatch(deleteProduct(getcurrentProductId)).then(data=>{
+function handleDelete(getCurrentProductId){
+    dispatch(deleteProduct(getCurrentProductId)).then(data=>{
         if(data?.payload?.success){
             dispatch(fetchAllProducts());
         }
@@ -219,9 +219,9 @@ export default AdminProducts;
 //   }
 
 
-//   function handleDelete(getcurrentProductId){
+//   function handleDelete(getCurrentProductId){
 
-//     dispatch(deleteProduct(getcurrentProductId)).then(data => {
+//     dispatch(deleteProduct(getCurrentProductId)).then(data => {
 //       if(data?.payload?.success){
 //         dispatch(fetchAllProduct());
 //       }

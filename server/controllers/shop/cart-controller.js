@@ -26,7 +26,7 @@ const addToCart = async(req, res)=> {
         let cart = await Cart.findOne({userId});
 
         if(!cart){
-            cart= new Cart({userId, item: []})
+            cart= new Cart({userId, items: []})
         }
 
         const findCurrentProductIndex = cart.items.findIndex(item=> item.productId.toString() === productId);
@@ -58,7 +58,7 @@ const addToCart = async(req, res)=> {
 const fetchCartItems = async(req, res)=> {
     try{
 
-        const {} = req.params;
+        const {userId} = req.params;
 
         if(!userId){
             return res.status(400).json({
@@ -68,7 +68,7 @@ const fetchCartItems = async(req, res)=> {
         }
 
         const cart = await Cart.findOne({userId}).populate({
-            path: 'item.productId',
+            path: 'items.productId',
             select: "image title price salePrice"
         })
 
@@ -211,7 +211,7 @@ const deleteCartItem = async(req, res)=> {
         
         await cart.save();
 
-        await Cart.populate({
+        await cart.populate({
             path: "items.productId",
             select: "image title price salePrice",
         })
