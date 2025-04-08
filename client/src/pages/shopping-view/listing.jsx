@@ -11,6 +11,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from  "@/config";
+import { useToast } from "@/hooks/use-toast";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { fetchAllFilteredProducts, fetchProductDetails } from "@/store/shop/products-slice";
 import { ArrowUpDownIcon } from "lucide-react";
@@ -50,6 +51,7 @@ function ShoppingListing() {
     const [sort, setSort] = useState(null);
     const [searchParams, setSearchParams] = useSearchParams();
     const [openDetailsDialog, setOpenDetailsDailog] = useState(false);
+    const {toast} = useToast();
 
     
 
@@ -96,6 +98,9 @@ function ShoppingListing() {
       dispatch(addToCart({userId : user?.id , productId : getCurrentProductId, quantity : 1 })).then((data)=> {
         if(data?.payload?.success){
           dispatch(fetchCartItems(user?.id));
+          toast({
+            title: 'Product is added to the cart',
+          })
         }
       }
       );
@@ -127,12 +132,7 @@ function ShoppingListing() {
     if(productDetails !== null) setOpenDetailsDailog(true)
   }, [productDetails]);
 
-  console.log(cartItems, "cartItems");
-
-
-
-
-
+  
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
