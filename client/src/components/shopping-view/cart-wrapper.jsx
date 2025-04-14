@@ -13,6 +13,7 @@ function UserCartWrapper({cartItems}){
     cartItems.reduce((sum,currentItem)=>sum + (currentItem?.salePrice> 0 ? currentItem?.salePrice : currentItem?.price) * currentItem?.quantity , 0) : 0;
 
 
+    
     return(
        <SheetContent className="sm:max-w-md">
         <SheetHeader>
