@@ -5,12 +5,40 @@ import { Dialog , DialogContent } from "../ui/dialog";
 import { Avatar,AvatarFallback  } from "../ui/avatar";
 import { StarIcon } from "lucide-react";
 import { Input } from "../ui/input";
+import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "@/hooks/use-toast";
+import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
+import { setProductDetails } from "@/store/shop/products-slice";
 
 
 function ProductDetailsDialog({open, setOpen , productDetails}){
 
+
+    const dispatch = useDispatch();
+    const {user} = useSelector(state=> state.auth)
+    const {toast} = useToast()
+
+     function handleAddToCart(getCurrentProductId){
+          
+          dispatch(addToCart({userId : user?.id , productId : getCurrentProductId, quantity : 1 })).then((data)=> {
+            if(data?.payload?.success){
+              dispatch(fetchCartItems(user?.id));
+              toast({
+                title: 'Product is added to the cart',
+              })
+            }
+          }
+          );
+        }
+
+
+        function handleDialogClose(){
+            setOpen(false)
+            dispatch(setProductDetails());
+        }
+
     return(
-        <Dialog open={open}  onOpenChange={setOpen}>
+        <Dialog open={open}  onOpenChange={handleDialogClose}>
             <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
                 <div className="relative overflow-hidden rounded-lg">
                     <img src={productDetails?.image} alt={productDetails?.title}
@@ -48,7 +76,7 @@ function ProductDetailsDialog({open, setOpen , productDetails}){
 
                     </div>
                     <div className="mt-5 mb-5">
-                        <Button className="w-full">
+                        <Button className="w-full" onClick={()=>handleAddToCart(productDetails?._id)}>
                             Add to Cart
                         </Button>
                     </div>

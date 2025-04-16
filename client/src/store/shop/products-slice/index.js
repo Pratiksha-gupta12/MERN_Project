@@ -99,4 +99,6 @@ const shoppingProductSlice = createSlice({
   },
 });
 
+export const {setProductDetails} = shoppingProductSlice.actions;
+
 export default shoppingProductSlice.reducer;
