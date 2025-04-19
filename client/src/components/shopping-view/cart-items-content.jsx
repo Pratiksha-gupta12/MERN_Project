@@ -30,14 +30,13 @@ function UserCartItemsContent({cartItem}){
     }
 
    function handleCartItemDelete(getCartItem){
-    dispatch(deleteCartItem({userId : user?.id, productId: getCartItem?.productId }).then(data=>{
+    dispatch(deleteCartItem({userId : user?.id, productId: getCartItem?.productId })).then((data) => {
         if(data?.payload?.success){
             toast({
                 title: 'Cart item is deleted successfully'
             })
         }
-    })
- );
+    });
 }
 
 
