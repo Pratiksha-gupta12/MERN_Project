@@ -12,8 +12,9 @@ const addAddress = async(req , res)=>{
             })
         }
 
+
         const newlyCreatedAddress = new Address({
-            userId, address, city, pincode, notes, phone
+            userId, address, city, pincode , notes, phone
         })
         await newlyCreatedAddress.save();
 
