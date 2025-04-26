@@ -6,6 +6,7 @@ import { addressFormControls } from "@/config";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewAddress, deleteAddress, editaAddress, fetchAllAddresses } from "@/store/shop/address-slice";
 import AddressCard from "./address-card";
+import { useToast } from "@/hooks/use-toast";
 
 
 const initialAddressFormData = {
@@ -25,11 +26,21 @@ function Address(){
     const dispatch = useDispatch();
     const {user} = useSelector(state => state.auth);
     const {addressList} = useSelector(state => state.shopAddress)
+    const {toast} = useToast();
 
 
 
     function handleManageAddress(event){
         event.preventDefault();
+
+        if(addressList.length >= 3 && currentEditedId === null){
+            setFormData(initialAddressFormData)
+            toast({
+                title : 'You can add max 3 addresses',
+                variant : 'destructive'
+            });
+            return;
+        }
 
 
         currentEditedId !== null
@@ -41,9 +52,12 @@ function Address(){
             })
           ).then((data) => {
             if (data?.payload?.success) {
-              dispatch(fetchAllAddresses());
+              dispatch(fetchAllAddresses(user?.id));
               setCurrentEditedId();
               setFormData(initialAddressFormData);
+              toast({
+                title : 'Address updated successfully'
+              })
              
             }
           })
@@ -56,6 +70,9 @@ function Address(){
             if (data?.payload?.success) {
               dispatch(fetchAllAddresses(user?.id));
               setFormData(initialAddressFormData);
+              toast({
+                title : 'Address added successfully',
+              })
             
             }
           });
@@ -72,7 +89,10 @@ function Address(){
 
         dispatch(deleteAddress({userId : user?.id, addressId: getCurrentAddress._id})).then((data)=>{
             if(data?.payload?.success){
-                dispatch(fetchAllAddresses(user?.id))
+                dispatch(fetchAllAddresses(user?.id));
+                toast({
+                    title : 'Address deleted successfully'
+                  })
             }
         })
 
@@ -102,7 +122,7 @@ function Address(){
     console.log(addressList,'ADDRESSlist')
 
     return <Card>
-        <div className="mb-5 p-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+        <div className="mb-5 p-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
             {
                 addressList && addressList.length > 0 ?
                 addressList.map((singleAddressItem) => (<AddressCard handleDeleteAddress={handleDeleteAddress} addressInfo={singleAddressItem}
