@@ -17,6 +17,7 @@ const createOrder = async(req , res)=>{
   paymentId,
   payerId,
         } = req.body;
+        
 
         const create_payment_json={
             intent : 'sale',
