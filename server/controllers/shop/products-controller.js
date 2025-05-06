@@ -83,4 +83,5 @@ const getProductDetails = async(req,res)=>{
 }
 
 
+
 module.exports = {getFilteredProducts , getProductDetails};
