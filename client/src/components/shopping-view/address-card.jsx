@@ -4,10 +4,10 @@ import { Button } from "../ui/button";
 
 
 
-function AddressCard({addressInfo, handleDeleteAddress, handleEditAddress}){
+function AddressCard({addressInfo, handleDeleteAddress, handleEditAddress, setCurrentSelectedAddress}){
     return (
 
-        <Card>
+        <Card onClick ={ setCurrentSelectedAddress ? ()=> setCurrentSelectedAddress(addressInfo) : null}>
             <CardContent className="grid p-4 gap-4">
                 <Label>Address: {addressInfo?.address}</Label>
                 <Label>City: {addressInfo?.city}</Label>
